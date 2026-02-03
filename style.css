@@ -1,0 +1,157 @@
+:root {
+  --primary: #ff4d6d;
+  --secondary: #ff8fa3;
+  --bg-gradient-start: #fff0f3;
+  --bg-gradient-end: #ffe5ec;
+  --text-color: #590d22;
+  --card-bg: rgba(255, 255, 255, 0.65);
+  --btn-shadow: 0 4px 15px rgba(255, 77, 109, 0.3);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: radial-gradient(circle at top, var(--bg-gradient-start), var(--bg-gradient-end));
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  color: var(--text-color);
+}
+
+/* Floating Hearts Background */
+.bg-hearts {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.heart-bg {
+  position: absolute;
+  width: 50px;
+  height: auto;
+  opacity: 0.6;
+  animation: floatUp 15s linear infinite;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.8; }
+  90% { opacity: 0.8; }
+  100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+}
+
+/* Card Container */
+.container {
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 3rem;
+  border-radius: 2rem;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+  text-align: center;
+  max-width: 600px;
+  width: 90%;
+  border: 1px solid rgba(255,255,255,0.8);
+  position: relative;
+  z-index: 10;
+  transition: transform 0.3s ease;
+}
+
+.container:hover {
+  transform: translateY(-5px);
+}
+
+/* Images */
+.gif-container img {
+  width: 200px;
+  height: auto;
+  border-radius: 15px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* Typography */
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  line-height: 1.2;
+  font-weight: 700;
+  background: linear-gradient(45deg, #ff4d6d, #c9184a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Buttons */
+.buttons {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  min-height: 80px; /* Prevent layout jump */
+}
+
+.btn {
+  padding: 1rem 2.5rem;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  font-weight: 600;
+  position: relative;
+}
+
+.btn-yes {
+  background: var(--primary);
+  color: white;
+  box-shadow: var(--btn-shadow);
+}
+
+.btn-yes:hover {
+  transform: scale(1.05);
+  background: #ff3355;
+  box-shadow: 0 8px 25px rgba(255, 77, 109, 0.5);
+}
+
+.btn-no {
+  background: #fff;
+  color: var(--text-color);
+  border: 2px solid #ffccd5;
+}
+
+.btn-no:hover {
+  background: #ffe5ec;
+}
+
+/* Success Message */
+.hidden {
+  display: none;
+}
+
+.success-message {
+  animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  h1 { font-size: 1.8rem; }
+  .btn { padding: 0.8rem 1.5rem; font-size: 1rem; }
+}
