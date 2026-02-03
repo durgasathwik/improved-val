@@ -13,34 +13,73 @@ const messages = [
 
 let messageIndex = 0;
 
-function handleNoClick() {
+const CARD_INSET = 12;
+const VIEWPORT_INSET = 16; // keep button on visible screen (never below fold)
+
+function moveNoButton() {
+  const wrapper = document.querySelector('.no-button-wrapper');
+  const container = document.querySelector('.container');
+  if (!wrapper || !container) return;
+
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  const containerRect = container.getBoundingClientRect();
+  const wrapperRect = wrapper.getBoundingClientRect();
+  const w = Math.max(wrapperRect.width, 100);
+  const h = Math.max(wrapperRect.height, 50);
+
+  // Stay inside card AND inside visible viewport so it never goes below the screen
+  const minLeft = Math.max(containerRect.left + CARD_INSET, VIEWPORT_INSET);
+  const maxLeft = Math.min(containerRect.right - w - CARD_INSET, vw - w - VIEWPORT_INSET);
+  const minTop = Math.max(containerRect.top + CARD_INSET, VIEWPORT_INSET);
+  const maxTop = Math.min(containerRect.bottom - h - CARD_INSET, vh - h - VIEWPORT_INSET);
+
+  let left = minLeft;
+  let top = minTop;
+  if (maxLeft > minLeft) left = minLeft + Math.random() * (maxLeft - minLeft);
+  if (maxTop > minTop) top = minTop + Math.random() * (maxTop - minTop);
+
+  left = Math.max(minLeft, Math.min(maxLeft, left));
+  top = Math.max(minTop, Math.min(maxTop, top));
+  if (Number.isNaN(left)) left = minLeft;
+  if (Number.isNaN(top)) top = minTop;
+
+  wrapper.style.position = 'fixed';
+  wrapper.style.zIndex = '1000';
+  wrapper.style.visibility = 'visible';
+  wrapper.style.opacity = '1';
+  wrapper.style.left = `${left}px`;
+  wrapper.style.top = `${top}px`;
+}
+
+function showMessageAndMove() {
   const noBtn = document.querySelector('.btn-no');
   const yesBtn = document.querySelector('.btn-yes');
-  
-  if (!noBtn || !yesBtn) return; // Safety check
+  const messageEl = document.querySelector('.no-click-message');
 
-  // Change text
-  noBtn.textContent = messages[messageIndex];
+  if (!noBtn || !messageEl) return;
+
+  // Show message when user hovers or clicks (both trigger this)
+  messageEl.textContent = messages[messageIndex];
+  messageEl.classList.remove('hidden');
   messageIndex = (messageIndex + 1) % messages.length;
-  
-  // Grow the Yes button
-  const currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
-  yesBtn.style.fontSize = `${currentSize * 1.5}px`;
-  
-  // Make the No button move randomly
-  const container = document.querySelector('.container');
-  const containerRect = container.getBoundingClientRect();
-  const btnRect = noBtn.getBoundingClientRect();
-  
-  const maxX = containerRect.width - btnRect.width;
-  const maxY = containerRect.height - btnRect.height;
-  
-  const randomX = Math.random() * maxX;
-  const randomY = Math.random() * maxY;
-  
-  noBtn.style.position = 'absolute'; // Ensure it can move
-  noBtn.style.left = `${randomX}px`;
-  noBtn.style.top = `${randomY}px`;
+
+  if (yesBtn) {
+    const currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
+    yesBtn.style.fontSize = `${currentSize * 1.5}px`;
+  }
+
+  moveNoButton();
+}
+
+function handleNoHover() {
+  // On hover: show message and move (can't click on first attempt)
+  showMessageAndMove();
+}
+
+function handleNoClick(e) {
+  e.preventDefault();
+  showMessageAndMove();
 }
 
 function handleYesClick() {
@@ -48,8 +87,8 @@ function handleYesClick() {
   document.querySelector('.title').style.display = 'none';
   document.querySelector('.buttons').style.display = 'none';
   
-  // Change image
-  document.querySelector('.gif-container img').src = "https://media.giphy.com/media/FqHTyEllkHxAY/giphy.gif";
+  // Change image to Snoopy dancing (celebration!)
+  document.querySelector('.gif-container img').src = "https://media.giphy.com/media/J93sVmfYBtsRi/giphy.gif";
   
   // Show message
   const message = document.querySelector('.success-message');
@@ -89,7 +128,10 @@ function handleYesClick() {
 window.onload = () => {
   const noBtn = document.querySelector('.btn-no');
   const yesBtn = document.querySelector('.btn-yes');
-  
-  if (noBtn) noBtn.addEventListener('click', handleNoClick);
+
+  if (noBtn) {
+    noBtn.addEventListener('mouseenter', handleNoHover);
+    noBtn.addEventListener('click', handleNoClick);
+  }
   if (yesBtn) yesBtn.addEventListener('click', handleYesClick);
 };

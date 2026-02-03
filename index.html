@@ -18,8 +18,11 @@
   </div>
 
   <div class="container">
-    <div class="gif-container">
-      <img src="https://media.giphy.com/media/Gpqk76tiVKjn2/giphy.gif" alt="Snoopy Valentine">
+    <div class="hero-row">
+      <div class="gif-container">
+        <img src="https://media.giphy.com/media/Gpqk76tiVKjn2/giphy.gif" alt="Snoopy Valentine">
+      </div>
+      <img src="images/photo1.png" class="photo-next-to-gif" alt="">
     </div>
 
     <h1 class="title">Will you be my Valentine?</h1>
@@ -27,11 +30,15 @@
     <div class="success-message hidden" style="display: none;">
       <h1 style="font-size: 3rem; color: #ff4d6d;">Yepppieee!! ❤️</h1>
       <p style="font-size: 1.2rem; margin-top: 1rem;">I knew you would say yes! (eventually 😜)</p>
+      <img src="images/photo2.png" class="success-photo" alt="">
     </div>
 
     <div class="buttons">
       <button class="btn btn-yes">Yes</button>
-      <button class="btn btn-no">No</button>
+      <div class="no-button-wrapper">
+        <div class="no-click-message hidden" aria-live="polite"></div>
+        <button class="btn btn-no">No</button>
+      </div>
     </div>
   </div>
 
