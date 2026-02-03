@@ -49,7 +49,7 @@ function handleYesClick() {
   document.querySelector('.buttons').style.display = 'none';
   
   // Change image
-  document.querySelector('.gif-container img').src = "https://media.tenor.com/sS_W7M_vNyoAAAAi/snoopy-kiss.gif";
+  document.querySelector('.gif-container img').src = "https://media.giphy.com/media/FqHTyEllkHxAY/giphy.gif";
   
   // Show message
   const message = document.querySelector('.success-message');
