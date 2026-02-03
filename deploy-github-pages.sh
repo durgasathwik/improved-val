@@ -10,7 +10,7 @@ echo "Creating repo $OWNER/$REPO and pushing..."
 gh repo create "$REPO" --public --source=. --remote=origin --push
 
 echo "Enabling GitHub Pages (main branch, root)..."
-gh api "repos/$OWNER/$REPO/pages" -X PUT -f source[branch]=main -f source[path]=/
+gh api "repos/$OWNER/$REPO/pages" -X POST -f 'source[branch]=main' -f 'source[path]=/'
 
 echo ""
 echo "Done! Your site will be live in 1–2 minutes at:"
